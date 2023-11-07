@@ -146,6 +146,7 @@ def signup():
 # Function to download models
 def download_model(style):
     model_url = f"http://vllab1.ucmerced.edu/~yli62/CartoonGAN/pytorch_pth/{style}_net_G_float.pth"
+    print(f"The pytorch model {model_url} is getting downloaded...")
     response = requests.get(model_url)
     if response.status_code == 200:
         with open(f"models/{style}_net_G_float.pth", 'wb') as f:
@@ -167,8 +168,6 @@ def load_models():
         model.eval()
         models[style] = model
     return models 
-
-models = load_models()
 
 # Endpoint for uploading an image and getting a cartoon-style image
 @app.route('/cartoonify', methods=['POST'])
@@ -195,5 +194,6 @@ def render_index():
     return render_template('index.html')
 
 if __name__ == '__main__':
+    models = load_models()
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     app.run(debug=False)
