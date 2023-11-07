@@ -1,4 +1,4 @@
-from your_flask_app import db, User
+from app import db, User
 from werkzeug.security import generate_password_hash
 import uuid
 # Create the database and tables
