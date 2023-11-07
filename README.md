@@ -49,7 +49,7 @@ To access the API endpoints, you need to authenticate and obtain an access token
 
 - **Signup**: `POST /signup`
 
-  - Allows users to create an account. (to create a new account, we would name, email, password, secret. The secret would allow special privilege to create a new account.)
+  - Allows users to create an account. (to create a new account, we would need name, email, password and secret as input parameters. The users trying to signup without having signup secret key would not be permissible)
 
 ### Image to Cartoon Conversion
 
