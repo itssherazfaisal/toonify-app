@@ -6,7 +6,7 @@ Toonify App is a web application that allows you to convert images to cartoons u
 
 1. Clone this repository to your local machine:
    ```bash
-   git clone https://github.com/your-username/toonify-app.git
+   git clone https://github.com/itssherazfaisal/toonify-app.git
    ```
 
 2. Navigate to the project directory:
@@ -71,6 +71,17 @@ To access the API endpoints, you need to authenticate and obtain an access token
 2. Log in with your user credentials.
 
 3. After logging in, you can upload an image, select the cartoon style, and set the image size to convert images to cartoons.
+
+## Model Downloading Process
+
+- We would be downloading models automatically once we start the server for the first time.
+- These are the links to pytorch pretrained models for different cartoon styles.
+    1. http://vllab1.ucmerced.edu/~yli62/CartoonGAN/pytorch_pth/Hayao_net_G_float.pth
+    2. http://vllab1.ucmerced.edu/~yli62/CartoonGAN/pytorch_pth/Hosoda_net_G_float.pth
+    3. http://vllab1.ucmerced.edu/~yli62/CartoonGAN/pytorch_pth/Paprika_net_G_float.pth	
+    4. http://vllab1.ucmerced.edu/~yli62/CartoonGAN/pytorch_pth/Shinkai_net_G_float.pth
+- These models would be placed automatically in the models folder. 
+
 
 ## Authentication
 
