@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toonify Image</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input, select {
+            margin: 10px 0;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #cartoon-image {
+            max-width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Toonify Your Image</h1>
+        <!-- Login Section -->
+        <div id="login-section">
+            <input type="text" id="login-email" name="email" placeholder="Email" required>
+            <input type="password" id="login-password" name="password" placeholder="Password" required>
+            <button id="login-button">Login</button>
+        </div>
+        <!-- Image Upload Section -->
+        <form id="upload-form" class="hidden">
+            <input type="file" id="image-upload" name="image" accept="image/*" required>
+            <select id="style" name="style">
+                <option value="Hosoda">Hosoda</option>
+                <option value="Hayao">Hayao</option>
+                <option value="Shinkai">Shinkai</option>
+                <option value="Paprika">Paprika</option>
+            </select>
+            <input type="number" id="image-size" name="image_size" placeholder="Image Size (e.g., 500)" required>
+            <input type="hidden" id="access-token" name="access-token" value="">
+            <button type="submit">Toonify</button>
+        </form>
+        <div id="result" class="hidden">
+            <h2>Result</h2>
+            <img id="cartoon-image" src="" alt="Cartoon Image">
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+        const loginSection = document.getElementById('login-section');
+        const uploadForm = document.getElementById('upload-form');
+        const resultDiv = document.getElementById('result');
+        const cartoonImage = document.getElementById('cartoon-image');
+
+        const loginButton = document.getElementById('login-button');
+        const emailInput = document.getElementById('login-email');
+        const passwordInput = document.getElementById('login-password');
+        const accessTokenInput = document.getElementById('access-token');
+
+        // Show login section and hide image upload form initially
+        loginSection.style.display = 'block';
+        uploadForm.style.display = 'none';
+
+        loginButton.addEventListener('click', () => {
+            const email = emailInput.value;
+            const password = passwordInput.value;
+
+            // Make a POST request to your login route to obtain the access token
+            fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `email=${email}&password=${password}`,
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Set the obtained access token in the form
+                accessTokenInput.value = data.token;
+                // Hide login section and show image upload form
+                loginSection.style.display = 'none';
+                uploadForm.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Login Error:', error);
+            });
+        });
+
+        uploadForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            resultDiv.style.display = 'none';
+            const formData = new FormData(uploadForm);
+            
+            fetch('/cartoonify', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'x-access-token': accessTokenInput.value, // Set the access token in the headers
+                },
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                const objectURL = URL.createObjectURL(blob);
+                cartoonImage.src = objectURL;
+                resultDiv.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    });
+    </script>
+</body>
+</html>
