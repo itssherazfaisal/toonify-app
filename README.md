@@ -1,4 +1,4 @@
- Toonify App
+# Toonify App
 
 Toonify App is a web application that allows you to convert images to cartoons using pre-trained deep learning models.
 
