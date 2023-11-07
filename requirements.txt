@@ -1,0 +1,9 @@
+requests
+pillow
+torch
+torchvision
+Flask
+Flask-RESTful
+PyJWT
+Flask-SQLAlchemy
+flask_cors
